@@ -39,26 +39,32 @@ const locationButton = $('locationButton');
 const mapPopover = $('mapPopover');
 const mapClose = $('mapClose');
 
-function openMapPicker(){
-  mapPopover.hidden = false;
-  locationButton.setAttribute('aria-expanded','true');
-}
-
-function closeMapPicker(){
-  mapPopover.hidden = true;
-  locationButton.setAttribute('aria-expanded','false');
-}
+function openMapPicker(){ mapPopover.hidden = false; locationButton.setAttribute('aria-expanded','true'); }
+function closeMapPicker(){ mapPopover.hidden = true; locationButton.setAttribute('aria-expanded','false'); }
 
 locationButton.addEventListener('click', event => {
   event.stopPropagation();
-  if (mapPopover.hidden) openMapPicker();
-  else closeMapPicker();
+  mapPopover.hidden ? openMapPicker() : closeMapPicker();
 });
 mapClose.addEventListener('click', event => { event.stopPropagation(); closeMapPicker(); });
 mapPopover.addEventListener('click', event => event.stopPropagation());
 document.addEventListener('click', closeMapPicker);
 document.addEventListener('keydown', event => { if(event.key === 'Escape') closeMapPicker(); });
-mapPopover.querySelectorAll('.map-option').forEach(option => option.addEventListener('click', closeMapPicker));
+
+mapPopover.querySelectorAll('.map-option').forEach(option => {
+  option.addEventListener('click', event => {
+    const fallback = option.dataset.fallback;
+    if (fallback) {
+      event.preventDefault();
+      const started = Date.now();
+      window.location.href = option.href;
+      setTimeout(() => {
+        if (document.visibilityState === 'visible' && Date.now() - started < 1800) window.location.href = fallback;
+      }, 900);
+    }
+    closeMapPicker();
+  });
+});
 
 renderLanguage();
 updateCountdown();
