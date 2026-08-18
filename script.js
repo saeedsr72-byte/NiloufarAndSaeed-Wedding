@@ -1,7 +1,7 @@
 const WEDDING_AT = new Date('2026-09-01T19:00:00+03:30').getTime();
 const translations = {
-  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Ashkan Garden', venueAddress:'Shiraz - Qalat Road - Aghaghia 2 Alley - Ashkan Garden', map:'Open location', mapKicker:'Navigation', mapTitle:'Choose your map', rsvpTitle:'Will you join us?', rsvpText:'A simple RSVP form will be added in the next build.' },
-  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز - ابتدای جاده قلات - کوچه اقاقیا ۲ - باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'در کنار ما خواهید بود؟', rsvpText:'فرم RSVP در نسخه بعدی اضافه می‌شود.' }
+  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Ashkan Garden', venueAddress:'Shiraz - Qalat Road - Aghaghia 2 Alley - Ashkan Garden', map:'Open location', mapKicker:'Navigation', mapTitle:'Choose your map', rsvpTitle:'Will you be joining us?', namePlaceholder:'Full name', attendanceQuestion:'Will you be joining us?', attendanceYes:"With love, I'll be there ♡", attendanceNo:"I won't be able to join you this time", noteLabel:'Your note', notePlaceholder:'Write a message for us...', submitRsvp:'Send RSVP', rsvpSuccess:'Thank you for letting us know ♡', rsvpError:'Something went wrong. Please try again.' },
+  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز - ابتدای جاده قلات - کوچه اقاقیا ۲ - باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'در کنار ما خواهید بود؟', namePlaceholder:'نام و نام خانوادگی', attendanceQuestion:'آیا در جشن ما همراه‌مان هستید؟', attendanceYes:'با عشق، می‌آیم ♡', attendanceNo:'این بار نمی‌توانم همراه‌تان باشم', noteLabel:'یادداشت شما', notePlaceholder:'پیامتان را برای ما بنویسید...', submitRsvp:'ارسال پاسخ', rsvpSuccess:'ممنون که خبرمان کردید ♡', rsvpError:'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.' }
 };
 
 let lang = localStorage.getItem('wedding-lang') || 'en';
@@ -14,7 +14,14 @@ function renderLanguage(){
     const key = el.dataset.i18n;
     el.textContent = translations[lang][key];
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    el.placeholder = translations[lang][key];
+  });
   $('languageToggle').textContent = lang === 'en' ? 'FA' : 'EN';
+  $('rsvpLanguage').value = lang === 'en' ? 'English' : 'Persian';
+  const selected = document.querySelector('input[name="attendance"]:checked');
+  if (selected) $('attendanceLabel').value = selected.nextElementSibling.textContent;
 }
 
 function updateCountdown(){
@@ -66,6 +73,37 @@ mapPopover.querySelectorAll('.map-option').forEach(option => {
   });
 });
 
+const rsvpForm = $('rsvpForm');
+const rsvpStatus = $('rsvpStatus');
+const attendanceInputs = document.querySelectorAll('input[name="attendance"]');
+attendanceInputs.forEach(input => input.addEventListener('change', () => {
+  $('attendanceLabel').value = input.nextElementSibling.textContent;
+}));
+
+rsvpForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const submitButton = rsvpForm.querySelector('.rsvp-submit');
+  submitButton.disabled = true;
+  rsvpStatus.textContent = '';
+  $('rsvpLanguage').value = lang === 'en' ? 'English' : 'Persian';
+  const selected = document.querySelector('input[name="attendance"]:checked');
+  if (selected) $('attendanceLabel').value = selected.nextElementSibling.textContent;
+
+  try {
+    const response = await fetch(rsvpForm.action, { method:'POST', body:new FormData(rsvpForm), headers:{Accept:'application/json'} });
+    if (!response.ok) throw new Error('RSVP submission failed');
+    rsvpForm.reset();
+    $('rsvpLanguage').value = lang === 'en' ? 'English' : 'Persian';
+    rsvpStatus.textContent = translations[lang].rsvpSuccess;
+    if (window.umami) window.umami.track('rsvp_submitted', { language: lang });
+  } catch (error) {
+    rsvpStatus.textContent = translations[lang].rsvpError;
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
+if (window.umami) window.umami.track('invitation_opened', { language: lang });
 renderLanguage();
 updateCountdown();
 setInterval(updateCountdown, 1000);
