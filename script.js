@@ -1,7 +1,7 @@
 const WEDDING_AT = new Date('2026-09-01T19:00:00+03:30').getTime();
 const translations = {
   en: { eyebrow:'A new chapter begins', date:'September 1, 2026 · 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Bagh Ashkan', venueAddress:'Shiraz · Qalat Road · Aghaghia 2 Alley · Bagh Ashkan', map:'Open location', rsvpTitle:'Will you join us?', rsvpText:'A simple RSVP form will be added in the next build.' },
-  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱ شهریور ۱۴۰۵ · ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز · ابتدای جاده قلات · کوچه اقاقیا ۲ · باغ اشکان', map:'مشاهده لوکیشن', rsvpTitle:'در کنار ما خواهید بود؟', rsvpText:'فرم RSVP در نسخه بعدی اضافه می‌شود.' }
+  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ · ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز · ابتدای جاده قلات · کوچه اقاقیا ۲ · باغ اشکان', map:'مشاهده لوکیشن', rsvpTitle:'در کنار ما خواهید بود؟', rsvpText:'فرم RSVP در نسخه بعدی اضافه می‌شود.' }
 };
 
 let lang = localStorage.getItem('wedding-lang') || 'en';
