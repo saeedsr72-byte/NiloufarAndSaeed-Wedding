@@ -1,7 +1,7 @@
 const WEDDING_AT = new Date('2026-09-01T19:00:00+03:30').getTime();
 const translations = {
-  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Ashkan Garden', venueAddress:'Shiraz - Qalat Road - Aghaghia 2 Alley - Ashkan Garden', map:'Open location', mapKicker:'Navigation', mapTitle:'Choose your map', rsvpTitle:'Will you be joining us?', namePlaceholder:'Full name', attendanceQuestion:'Will you be joining us?', attendanceYes:"With love, I'll be there ♡", attendanceNo:"I won't be able to join you this time", noteLabel:'Your note', notePlaceholder:'Write a message for us...', submitRsvp:'Send RSVP', rsvpSuccess:'Thank you for letting us know ♡', rsvpError:'Something went wrong. Please try again.' },
-  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز - ابتدای جاده قلات - کوچه اقاقیا ۲ - باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'در کنار ما خواهید بود؟', namePlaceholder:'نام و نام خانوادگی', attendanceQuestion:'آیا در جشن ما همراه‌مان هستید؟', attendanceYes:'با عشق، می‌آیم ♡', attendanceNo:'این بار نمی‌توانم همراه‌تان باشم', noteLabel:'یادداشت شما', notePlaceholder:'پیامتان را برای ما بنویسید...', submitRsvp:'ارسال پاسخ', rsvpSuccess:'ممنون که خبرمان کردید ♡', rsvpError:'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.' }
+  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Ashkan Garden', venueAddress:'Shiraz - Qalat Road - Aghaghia 2 Alley - Ashkan Garden', map:'Open location', mapKicker:'Navigation', mapTitle:'Choose your map', rsvpTitle:'Will you be joining us?', openRsvp:'RSVP ♡', namePlaceholder:'Full name', attendanceQuestion:'Will you be joining us?', attendanceYes:"With love, I'll be there ♡", attendanceNo:"I won't be able to join you this time", noteLabel:'Your note', notePlaceholder:'Write a message for us...', submitRsvp:'Send RSVP', rsvpSuccess:'Thank you for letting us know ♡', rsvpError:'Something went wrong. Please try again.' },
+  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز - ابتدای جاده قلات - کوچه اقاقیا ۲ - باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'در کنار ما خواهید بود؟', openRsvp:'RSVP ♡', namePlaceholder:'نام و نام خانوادگی', attendanceQuestion:'آیا در جشن ما همراه‌مان هستید؟', attendanceYes:'با عشق، می‌آیم ♡', attendanceNo:'این بار نمی‌توانم همراه‌تان باشم', noteLabel:'یادداشت شما', notePlaceholder:'پیامتان را برای ما بنویسید...', submitRsvp:'ارسال پاسخ', rsvpSuccess:'ممنون که خبرمان کردید ♡', rsvpError:'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.' }
 };
 
 let lang = localStorage.getItem('wedding-lang') || 'en';
@@ -75,7 +75,36 @@ mapPopover.querySelectorAll('.map-option').forEach(option => {
 
 const rsvpForm = $('rsvpForm');
 const rsvpStatus = $('rsvpStatus');
+const rsvpModal = $('rsvpModal');
+const rsvpOpen = $('rsvpOpen');
+const rsvpClose = $('rsvpClose');
 const attendanceInputs = document.querySelectorAll('input[name="attendance"]');
+
+function openRsvp(){
+  rsvpModal.hidden = false;
+  rsvpModal.setAttribute('aria-hidden','false');
+  document.body.classList.add('rsvp-modal-open');
+  requestAnimationFrame(() => rsvpModal.classList.add('is-open'));
+  rsvpOpen.setAttribute('aria-expanded','true');
+  setTimeout(() => rsvpForm.querySelector('input[name="name"]').focus(), 120);
+  if (window.umami) window.umami.track('rsvp_opened', { language: lang });
+}
+function closeRsvp(){
+  rsvpModal.classList.remove('is-open');
+  rsvpModal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('rsvp-modal-open');
+  rsvpOpen.setAttribute('aria-expanded','false');
+  setTimeout(() => { if (!rsvpModal.classList.contains('is-open')) rsvpModal.hidden = true; }, 220);
+}
+
+rsvpOpen.addEventListener('click', openRsvp);
+rsvpClose.addEventListener('click', closeRsvp);
+rsvpModal.querySelector('[data-rsvp-close]').addEventListener('click', closeRsvp);
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !rsvpModal.hidden) closeRsvp();
+});
+
 attendanceInputs.forEach(input => input.addEventListener('change', () => {
   $('attendanceLabel').value = input.nextElementSibling.textContent;
 }));
