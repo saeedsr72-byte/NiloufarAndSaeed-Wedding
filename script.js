@@ -103,7 +103,14 @@ rsvpForm.addEventListener('submit', async event => {
   }
 });
 
-if (window.umami) window.umami.track('invitation_opened', { language: lang });
+const rsvpStyle = document.createElement('style');
+rsvpStyle.textContent = `.rsvp-form{max-width:460px;margin:34px auto 0;display:flex;flex-direction:column;gap:18px;text-align:left}.rsvp-field{width:100%;border:0;border-bottom:1px solid rgba(128,86,90,.28);border-radius:0;background:transparent;color:#6f4d50;padding:12px 2px;font:inherit;outline:none}.rsvp-field:focus{border-bottom-color:#80565a}.rsvp-field::placeholder{color:#a7777b;opacity:.8}.rsvp-choice{margin:4px 0 0;padding:0;border:0;display:flex;flex-direction:column;gap:12px}.rsvp-choice legend,.rsvp-note-label{margin-bottom:4px;color:#80565a;font-size:.85rem}.rsvp-choice label{display:flex;align-items:center;gap:10px;font-size:.9rem}.rsvp-choice input{accent-color:#80565a}.rsvp-message{resize:vertical;min-height:90px}.rsvp-submit{align-self:center;border:1px solid rgba(128,86,90,.28);border-radius:999px;background:transparent;color:#80565a;padding:11px 24px}.rsvp-submit:disabled{opacity:.55}.rsvp-status{min-height:1.4em;margin:0!important;text-align:center;color:#80565a;font-size:.85rem}`;
+document.head.appendChild(rsvpStyle);
+
+window.addEventListener('load', () => {
+  if (window.umami) window.umami.track('invitation_opened', { language: lang });
+});
+
 renderLanguage();
 updateCountdown();
 setInterval(updateCountdown, 1000);
