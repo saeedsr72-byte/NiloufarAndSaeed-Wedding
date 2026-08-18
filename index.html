@@ -56,15 +56,6 @@
     <section class="rsvp" id="rsvpSection">
       <p class="section-kicker">RSVP</p>
       <h2 data-i18n="rsvpTitle">Will you be joining us?</h2>
-      <button class="rsvp-open" id="rsvpOpen" type="button" data-i18n="openRsvp">RSVP ♡</button>
-    </section>
-  </main>
-  <div class="rsvp-modal" id="rsvpModal" hidden aria-hidden="true">
-    <div class="rsvp-backdrop" data-rsvp-close></div>
-    <div class="rsvp-dialog" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle">
-      <button class="rsvp-close" id="rsvpClose" type="button" aria-label="Close RSVP">×</button>
-      <p class="section-kicker">RSVP</p>
-      <h2 id="rsvpModalTitle" data-i18n="rsvpTitle">Will you be joining us?</h2>
       <form id="rsvpForm" class="rsvp-form" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="065b2971-6e3c-4b87-b8c3-5ab525c4b2b1">
         <input type="hidden" name="subject" value="New Wedding RSVP — Saeed & Niloufar">
@@ -82,12 +73,12 @@
         <button class="rsvp-submit" type="submit" data-i18n="submitRsvp">Send RSVP</button>
         <p class="rsvp-status" id="rsvpStatus" role="status" aria-live="polite"></p>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
   <div class="floating-tools" aria-label="Site controls">
     <img class="floating-logo" src="assets/ns-logo.png" alt="NS">
     <button id="languageToggle" type="button" aria-label="Switch language">FA</button>
-    <span class="version" aria-label="Build version">14</span>
+    <span class="version" aria-label="Build version">15</span>
   </div>
   <script src="script.js"></script>
 </body>
