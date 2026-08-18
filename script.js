@@ -1,7 +1,7 @@
 const WEDDING_AT = new Date('2026-09-01T19:00:00+03:30').getTime();
 const translations = {
-  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Bagh Ashkan', venueAddress:'Shiraz · Qalat Road · Aghaghia 2 Alley · Bagh Ashkan', map:'Open location', rsvpTitle:'Will you join us?', rsvpText:'A simple RSVP form will be added in the next build.' },
-  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز · ابتدای جاده قلات · کوچه اقاقیا ۲ · باغ اشکان', map:'مشاهده لوکیشن', rsvpTitle:'در کنار ما خواهید بود؟', rsvpText:'فرم RSVP در نسخه بعدی اضافه می‌شود.' }
+  en: { eyebrow:'A new chapter begins', date:'September 1, 2026 / 7:00 PM', countdownTitle:'Until our day', days:'Days', hours:'Hours', minutes:'Minutes', seconds:'Seconds', storyKicker:'Two hearts, one beginning', storyTitle:'We would love to celebrate with you.', venueKicker:'The celebration', venueName:'Ashkan Garden', venueAddress:'Shiraz · Qalat Road · Aghaghia 2 Alley · Ashkan Garden', map:'Open location', mapKicker:'Navigation', mapTitle:'Choose your map', rsvpTitle:'Will you join us?', rsvpText:'A simple RSVP form will be added in the next build.' },
+  fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز · ابتدای جاده قلات · کوچه اقاقیا ۲ · باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'در کنار ما خواهید بود؟', rsvpText:'فرم RSVP در نسخه بعدی اضافه می‌شود.' }
 };
 
 let lang = localStorage.getItem('wedding-lang') || 'en';
@@ -34,6 +34,29 @@ $('languageToggle').addEventListener('click', () => {
   localStorage.setItem('wedding-lang', lang === 'en' ? 'fa' : 'en');
   window.location.href = window.location.pathname + window.location.search;
 });
+
+const picker = $('mapPicker');
+const backdrop = $('mapBackdrop');
+
+function openMapPicker(){
+  backdrop.hidden = false;
+  if (typeof picker.showModal === 'function') picker.showModal();
+  else picker.setAttribute('open','');
+}
+
+function closeMapPicker(){
+  if (typeof picker.close === 'function' && picker.open) picker.close();
+  else picker.removeAttribute('open');
+  backdrop.hidden = true;
+}
+
+$('locationButton').addEventListener('click', openMapPicker);
+$('mapClose').addEventListener('click', closeMapPicker);
+backdrop.addEventListener('click', closeMapPicker);
+picker.addEventListener('cancel', closeMapPicker);
+picker.querySelectorAll('.map-option').forEach(option => option.addEventListener('click', () => {
+  closeMapPicker();
+}));
 
 renderLanguage();
 updateCountdown();
