@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#f8eee8">
   <title>Saeed & Niloufar</title>
   <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="fd77ee92-afe1-4be0-a5c6-8dba6cec10b5"></script>
 </head>
 <body>
   <main id="app">
@@ -52,12 +53,32 @@
         </div>
       </div>
     </section>
-    <section class="rsvp"><p class="section-kicker">RSVP</p><h2 data-i18n="rsvpTitle">Will you join us?</h2><p data-i18n="rsvpText">A simple RSVP form will be added in the next build.</p></section>
+    <section class="rsvp">
+      <p class="section-kicker">RSVP</p>
+      <h2 data-i18n="rsvpTitle">Will you be joining us?</h2>
+      <form id="rsvpForm" class="rsvp-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="065b2971-6e3c-4b87-b8c3-5ab525c4b2b1">
+        <input type="hidden" name="subject" value="New Wedding RSVP — Saeed & Niloufar">
+        <input type="hidden" name="from_name" value="Saeed & Niloufar Wedding">
+        <input type="hidden" name="language" id="rsvpLanguage" value="English">
+        <input type="hidden" name="attendance_label" id="attendanceLabel" value="With love, I'll be there ♡">
+        <input class="rsvp-field" type="text" name="name" data-i18n-placeholder="namePlaceholder" placeholder="Full name" autocomplete="name" required>
+        <fieldset class="rsvp-choice">
+          <legend data-i18n="attendanceQuestion">Will you be joining us?</legend>
+          <label><input type="radio" name="attendance" value="yes" required><span data-i18n="attendanceYes">With love, I'll be there ♡</span></label>
+          <label><input type="radio" name="attendance" value="no"><span data-i18n="attendanceNo">I won't be able to join you this time</span></label>
+        </fieldset>
+        <label class="rsvp-note-label" for="rsvpMessage" data-i18n="noteLabel">Your note</label>
+        <textarea class="rsvp-field rsvp-message" id="rsvpMessage" name="message" data-i18n-placeholder="notePlaceholder" placeholder="Write a message for us..." rows="4"></textarea>
+        <button class="rsvp-submit" type="submit" data-i18n="submitRsvp">Send RSVP</button>
+        <p class="rsvp-status" id="rsvpStatus" role="status" aria-live="polite"></p>
+      </form>
+    </section>
   </main>
   <div class="floating-tools" aria-label="Site controls">
     <img class="floating-logo" src="assets/ns-logo.png" alt="NS">
     <button id="languageToggle" type="button" aria-label="Switch language">FA</button>
-    <span class="version" aria-label="Build version">12</span>
+    <span class="version" aria-label="Build version">13</span>
   </div>
   <script src="script.js"></script>
 </body>
