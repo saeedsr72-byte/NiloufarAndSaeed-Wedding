@@ -1,8 +1,8 @@
 (() => {
   const lang = localStorage.getItem('wedding-lang') || 'en';
   const welcomeText = {
-    en: { title:'Saeed & Niloufar', subtitle:'This night is better with you', cta:'Open Invitation', next:'FA' },
-    fa: { title:'سعید و نیلوفر', subtitle:'این شب، با شما زیباتر است', cta:'باز کردن دعوت‌نامه', next:'EN' }
+    en: { title:'', subtitle:'This night is better with you', card:'With love, toward a new beginning', cta:'Open Invitation', next:'FA' },
+    fa: { title:'', subtitle:'این شب، با شما زیباتر است', card:'با عشق، به سوی یک آغاز', cta:'باز کردن دعوت‌نامه', next:'EN' }
   };
   const t = welcomeText[lang];
 
@@ -24,7 +24,7 @@
         <div class="welcome-envelope" aria-hidden="true">
           <div class="welcome-card">
             <div class="welcome-card-mark">NS</div>
-            <div class="welcome-card-names">SAEED &amp; NILOUFAR</div>
+            <div class="welcome-card-names">${t.card}</div>
           </div>
           <div class="welcome-flap"></div>
           <button class="welcome-seal" id="welcomeSeal" type="button" aria-label="${t.cta}"><img src="assets/ns-logo.png" alt=""></button>
