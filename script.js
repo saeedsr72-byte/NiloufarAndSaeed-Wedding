@@ -35,28 +35,30 @@ $('languageToggle').addEventListener('click', () => {
   window.location.href = window.location.pathname + window.location.search;
 });
 
-const picker = $('mapPicker');
-const backdrop = $('mapBackdrop');
+const locationButton = $('locationButton');
+const mapPopover = $('mapPopover');
+const mapClose = $('mapClose');
 
 function openMapPicker(){
-  backdrop.hidden = false;
-  if (typeof picker.showModal === 'function') picker.showModal();
-  else picker.setAttribute('open','');
+  mapPopover.hidden = false;
+  locationButton.setAttribute('aria-expanded','true');
 }
 
 function closeMapPicker(){
-  if (typeof picker.close === 'function' && picker.open) picker.close();
-  else picker.removeAttribute('open');
-  backdrop.hidden = true;
+  mapPopover.hidden = true;
+  locationButton.setAttribute('aria-expanded','false');
 }
 
-$('locationButton').addEventListener('click', openMapPicker);
-$('mapClose').addEventListener('click', closeMapPicker);
-backdrop.addEventListener('click', closeMapPicker);
-picker.addEventListener('cancel', closeMapPicker);
-picker.querySelectorAll('.map-option').forEach(option => option.addEventListener('click', () => {
-  closeMapPicker();
-}));
+locationButton.addEventListener('click', event => {
+  event.stopPropagation();
+  if (mapPopover.hidden) openMapPicker();
+  else closeMapPicker();
+});
+mapClose.addEventListener('click', event => { event.stopPropagation(); closeMapPicker(); });
+mapPopover.addEventListener('click', event => event.stopPropagation());
+document.addEventListener('click', closeMapPicker);
+document.addEventListener('keydown', event => { if(event.key === 'Escape') closeMapPicker(); });
+mapPopover.querySelectorAll('.map-option').forEach(option => option.addEventListener('click', closeMapPicker));
 
 renderLanguage();
 updateCountdown();
