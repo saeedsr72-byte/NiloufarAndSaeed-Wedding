@@ -1,10 +1,13 @@
 (() => {
-  const lang = localStorage.getItem('wedding-lang') || 'en';
+  const lang = localStorage.getItem('wedding-lang') || 'fa';
   const welcomeText = {
     en: { title:'', subtitle:'This night is better with you', card:'With love, toward a new beginning', cta:'Open Invitation', next:'FA' },
     fa: { title:'', subtitle:'این شب، با شما زیباتر است', card:'با عشق، به سوی یک آغاز', cta:'باز کردن دعوت‌نامه', next:'EN' }
   };
   const t = welcomeText[lang];
+  const music = new Audio(lang === 'fa' ? 'assets/Pol.mp3' : 'assets/Ordinary.mp3');
+  music.preload = 'auto';
+  music.loop = true;
 
   document.documentElement.classList.add('welcome-locked');
   document.body.classList.add('welcome-locked');
@@ -38,6 +41,8 @@
 
   const restartInLanguage = () => {
     localStorage.setItem('wedding-lang', lang === 'en' ? 'fa' : 'en');
+    music.pause();
+    music.currentTime = 0;
     window.location.reload();
   };
 
@@ -47,6 +52,7 @@
   const openInvitation = () => {
     if (opening) return;
     opening = true;
+    music.play().catch(() => {});
     screen.classList.add('welcome-screen-opening');
     document.getElementById('welcomeOpen').disabled = true;
     document.getElementById('welcomeSeal').disabled = true;
