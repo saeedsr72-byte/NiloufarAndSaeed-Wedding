@@ -4,7 +4,7 @@ const translations = {
   fa: { eyebrow:'آغاز یک فصل تازه', date:'۱۰ شهریور ۱۴۰۵ / ساعت ۱۹:۰۰', countdownTitle:'تا آغاز فصل عاشقی', days:'روز', hours:'ساعت', minutes:'دقیقه', seconds:'ثانیه', storyKicker:'دو قلب، یک آغاز', storyTitle:'دوست داریم این شب را در کنار شما جشن بگیریم.', venueKicker:'محل جشن', venueName:'باغ اشکان', venueAddress:'شیراز - ابتدای جاده قلات - کوچه اقاقیا ۲ - باغ اشکان', map:'مشاهده لوکیشن', mapKicker:'مسیریابی', mapTitle:'مسیریاب خود را انتخاب کنید', rsvpTitle:'آیا در این شب کنار ما خواهید بود؟', namePlaceholder:'نام و نام خانوادگی', attendanceQuestion:'آیا در این شب کنار ما خواهید بود؟', attendanceYes:'با عشق، می‌آیم', attendanceNo:'این بار نمی‌توانم همراه‌تان باشم', noteLabel:'یادداشت شما', notePlaceholder:'پیامتان را برای ما بنویسید...', submitRsvp:'ارسال پاسخ', rsvpSuccess:'ممنون که خبرمان کردید ♥', rsvpError:'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.' }
 };
 
-let lang = localStorage.getItem('wedding-lang') || 'en';
+let lang = localStorage.getItem('wedding-lang') || 'fa';
 const $ = id => document.getElementById(id);
 
 function renderLanguage(){
